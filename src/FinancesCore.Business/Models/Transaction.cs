@@ -11,6 +11,6 @@ namespace FinancesCore.Business.Models
         public Guid CategoryId { get; set; }
 
         /* EF Relations */
-        public Transaction Category { get; set; }
+        public Category Category { get; set; }
     }
 }
