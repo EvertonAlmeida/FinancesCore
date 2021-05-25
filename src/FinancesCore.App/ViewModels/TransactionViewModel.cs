@@ -27,6 +27,10 @@ namespace FinancesCore.App.ViewModels
         [DisplayName("Active?")]
         public bool Active { get; set; }
 
+        [Required(ErrorMessage = "The field {0} is required")]
+        [DisplayName("Category")]
+        public Guid CategoryId { get; set; }
+
         public CategoryViewModel Category { get; set; }
 
     }
