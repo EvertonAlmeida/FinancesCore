@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinancesCore.Data.Migrations
 {
-    [DbContext(typeof(FinanceCoreContext))]
+    [DbContext(typeof(FinanceCoreDbContext))]
     partial class FinanceCoreContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinancesCore.Data.Context
 {
-    public class FinanceCoreContext : DbContext
+    public class FinanceCoreDbContext : DbContext
     {
-        public FinanceCoreContext(DbContextOptions options) : base(options)
+        public FinanceCoreDbContext(DbContextOptions options) : base(options)
         {
 
         }
@@ -23,7 +23,7 @@ namespace FinancesCore.Data.Context
                     .Where(p => p.ClrType == typeof(string))))
                 property.SetColumnType("varchar(100)");
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(FinanceCoreContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(FinanceCoreDbContext).Assembly);
 
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
 
