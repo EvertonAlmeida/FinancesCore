@@ -1,6 +1,6 @@
 using System;
 
-namespace FinancesCore.App.Models
+namespace FinancesCore.App.ViewModels
 {
     public class ErrorViewModel
     {
