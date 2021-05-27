@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FinancesCore.Business.Intefaces;
 using FinancesCore.Business.Models;
@@ -15,15 +17,21 @@ namespace FinancesCore.Data.Repositories
         public async Task<Transaction> GetTransactionAndCategory(Guid id)
         {
             return await Db.Transactions.AsNoTracking()
-                .Include(c => c.Category)
+                .Include(t => t.Category)
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task<Transaction> GetTransactionByCategory(Guid categoryId)
         {
             return await Db.Transactions.AsNoTracking()
-                .Include(c => c.Category)
+                .Include(t => t.Category)
                 .FirstOrDefaultAsync(t => t.CategoryId == categoryId);
+        }
+
+        public async Task<IEnumerable<Transaction>> GetTransactionsAndCategories()
+        {
+            return await Db.Transactions.AsNoTracking().Include(t => t.Category)
+                .OrderBy(p => p.CreatedAt).ToListAsync();
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -33,5 +34,6 @@ namespace FinancesCore.App.ViewModels
 
         public CategoryViewModel Category { get; set; }
 
+        public IEnumerable<CategoryViewModel> Categories { get; set; }
     }
 }
