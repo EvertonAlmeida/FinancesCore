@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<FinancesCore.App.ViewModels.TransactionViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Transaction List";
 }
 
-<h1>Index</h1>
+<h3>@ViewData["Title"]</h3>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-info" asp-action="Create">New Transaction</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-hover">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
@@ -31,7 +31,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -48,12 +49,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Category.Title)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            <td class="text-right">
+                <a class="btn btn-warning" asp-controller="Transactions" asp-action="Details" asp-route-id="@item.Id"><spam class="fa fa-search"></spam> </a>
+                <a disable-by-claim-name="Produto" disable-by-claim-value="Editar" class="btn btn-info" asp-controller="Transactions" asp-action="Edit" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></spam> </a>
+                <a disable-by-claim-name="Produto" disable-by-claim-value="Excluir" class="btn btn-danger" asp-controller="Transactions" asp-action="Delete" asp-route-id="@item.Id"><spam class="fa fa-trash"></spam> </a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>

@@ -18,7 +18,7 @@ namespace FinancesCore.App.Controllers
         public TransactionsController(
             ITransactionRepository transactionsRepository,
             ICategoryRepository categoryRepository,
-        IMapper mapper)
+            IMapper mapper)
         {
             _transactionsRepository = transactionsRepository;
             _categoryRepository = categoryRepository;
@@ -27,7 +27,7 @@ namespace FinancesCore.App.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(_mapper.Map<IEnumerable<TransactionViewModel>>(await _transactionsRepository.GetTransactionsAndCategories()));
+            return View(await GetTransactionAndCategories());
         }
 
         public async Task<IActionResult> Details(Guid id)
@@ -81,7 +81,7 @@ namespace FinancesCore.App.Controllers
 
         public async Task<IActionResult> Delete(Guid id)
         {
-            var transactionViewModel = await GetTransaction(id);
+            var transactionViewModel = await GetTransactionAndCategory(id);
             if (transactionViewModel == null) return NotFound();
 
             return View(transactionViewModel);
@@ -104,10 +104,20 @@ namespace FinancesCore.App.Controllers
             return _mapper.Map<TransactionViewModel>(await _transactionsRepository.GetById(id));
         }
 
+        private async Task<TransactionViewModel> GetTransactionAndCategory(Guid id)
+        {
+            return _mapper.Map<TransactionViewModel>(await _transactionsRepository.GetTransactionAndCategory(id));
+        }
+
         private async Task<TransactionViewModel> LoadCategories(TransactionViewModel transaction)
         {
             transaction.Categories = _mapper.Map<IEnumerable<CategoryViewModel>>(await _categoryRepository.GetAll());
             return transaction;
+        }
+
+        private async Task<IEnumerable<TransactionViewModel>> GetTransactionAndCategories()
+        {
+            return _mapper.Map<IEnumerable<TransactionViewModel>>(await _transactionsRepository.GetTransactionsAndCategories());
         }
     }
 }

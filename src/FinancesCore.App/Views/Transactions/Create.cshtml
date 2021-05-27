@@ -1,12 +1,11 @@
 ﻿@model FinancesCore.App.ViewModels.TransactionViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "New Transaction";
 }
 
-<h1>Create</h1>
+<h3 style="padding-top: 20px">@ViewData["Title"] </h3>
 
-<h4>TransactionViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -42,13 +41,10 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a class="btn btn-info" asp-action="Index">Voltar</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
