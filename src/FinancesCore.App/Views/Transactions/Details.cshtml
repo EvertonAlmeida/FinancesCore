@@ -1,4 +1,5 @@
-﻿@model FinancesCore.App.ViewModels.TransactionViewModel
+﻿@using FinancesCore.App.Extensions
+@model FinancesCore.App.ViewModels.TransactionViewModel
 
 @{
     ViewData["Title"] = "Transaction Details - " + Model.Title;
@@ -24,7 +25,7 @@
             @Html.DisplayNameFor(model => model.Type)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Type)
+            @this.GetTypeDescription(Model.Type)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Active)

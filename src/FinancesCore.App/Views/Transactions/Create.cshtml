@@ -16,7 +16,6 @@
                 <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(Model.Categories, "Id", "Title"))">
                     <option></option>
                 </select>
-
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -29,15 +28,19 @@
                 <input asp-for="Value" class="form-control" />
                 <span asp-validation-for="Value" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
                 </label>
+            </div>
+            <div class="form-group form-check-inline">
+                <input class="form-check-input" type="radio" value="1" asp-for="Type" checked />
+                <label class="form-check-label" for="inlineRadio1">Incoming</label>
+            </div>
+            <div class="form-group form-check-inline">
+                <input class="form-check-input" type="radio" value="2" asp-for="Type" />
+                <label class="form-check-label" for="inlineRadio2">Outcoming</label>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

@@ -6,6 +6,7 @@ using FinancesCore.App.ViewModels;
 using AutoMapper;
 using FinancesCore.Business.Intefaces;
 using FinancesCore.Business.Models;
+using System.Linq;
 
 namespace FinancesCore.App.Controllers
 {
@@ -27,7 +28,7 @@ namespace FinancesCore.App.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await GetTransactionAndCategories());
+            return View(GetDashboard(await GetTransactionsAndCategories()));
         }
 
         public async Task<IActionResult> Details(Guid id)
@@ -40,7 +41,7 @@ namespace FinancesCore.App.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var transactionViewModel = await LoadCategories(new TransactionViewModel());
+            var transactionViewModel = await LoadCategoriesIntoTransaction(new TransactionViewModel());
             return View(transactionViewModel);
         }
 
@@ -48,7 +49,7 @@ namespace FinancesCore.App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TransactionViewModel transactionViewModel)
         {
-            transactionViewModel = await LoadCategories(transactionViewModel);
+            transactionViewModel = await LoadCategoriesIntoTransaction(transactionViewModel);
             if (!ModelState.IsValid) return View(transactionViewModel);
 
             var transaction = _mapper.Map<Transaction>(transactionViewModel);
@@ -101,7 +102,9 @@ namespace FinancesCore.App.Controllers
 
         private async Task<TransactionViewModel> GetTransaction(Guid id)
         {
-            return _mapper.Map<TransactionViewModel>(await _transactionsRepository.GetById(id));
+            var transaction = _mapper.Map<TransactionViewModel>(await _transactionsRepository.GetTransactionAndCategory(id));
+            transaction = await LoadCategoriesIntoTransaction(transaction);
+            return transaction;
         }
 
         private async Task<TransactionViewModel> GetTransactionAndCategory(Guid id)
@@ -109,15 +112,40 @@ namespace FinancesCore.App.Controllers
             return _mapper.Map<TransactionViewModel>(await _transactionsRepository.GetTransactionAndCategory(id));
         }
 
-        private async Task<TransactionViewModel> LoadCategories(TransactionViewModel transaction)
+        private async Task<TransactionViewModel> LoadCategoriesIntoTransaction(TransactionViewModel transaction)
         {
             transaction.Categories = _mapper.Map<IEnumerable<CategoryViewModel>>(await _categoryRepository.GetAll());
             return transaction;
         }
 
-        private async Task<IEnumerable<TransactionViewModel>> GetTransactionAndCategories()
+        private async Task<IEnumerable<TransactionViewModel>> GetTransactionsAndCategories()
         {
             return _mapper.Map<IEnumerable<TransactionViewModel>>(await _transactionsRepository.GetTransactionsAndCategories());
+        }
+
+        private DashboardViewModel GetDashboard(IEnumerable<TransactionViewModel> transactions)
+        {
+           var dashboard = new DashboardViewModel() {
+              Transactions = transactions,
+               Balance = GetBalance(transactions)
+           };
+
+            return dashboard;
+        }
+
+        private BalanceViewModel GetBalance(IEnumerable<TransactionViewModel> transactions)
+        {
+            var income = transactions.Sum(t => t.Type == 1 ? t.Value : 0);
+            var outcome = transactions.Sum(t => t.Type == 2 ? t.Value : 0);
+            var total = income - outcome;
+
+            var balance = new BalanceViewModel() {
+                Outcome = outcome,
+                Income = income,
+                Total = total,
+            };
+
+            return balance;
         }
     }
 }
