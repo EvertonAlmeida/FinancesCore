@@ -76,7 +76,7 @@
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Value)
+                    @item.Value.ToString("C")
                 </td>
                 <td>
                     @this.GetTypeDescription(item.Type)
