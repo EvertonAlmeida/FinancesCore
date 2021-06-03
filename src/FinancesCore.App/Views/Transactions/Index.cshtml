@@ -92,7 +92,7 @@
                 <td class="text-right">
                     <a class="btn btn-warning" asp-controller="Transactions" asp-action="Details" asp-route-id="@item.Id"><spam class="fa fa-search"></spam> </a>
                     <a disable-by-claim-name="Transaction" disable-by-claim-value="Edit" class="btn btn-info" asp-controller="Transactions" asp-action="Edit" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></spam> </a>
-                    <a supress-by-claim-name="Transaction" supress-by-claim-value="delete" class="btn btn-danger" asp-controller="Transactions" asp-action="Delete" asp-route-id="@item.Id"><spam class="fa fa-trash"></spam> </a>
+                    <a disable-by-claim-name="Transaction" disable-by-claim-value="delete" class="btn btn-danger" asp-controller="Transactions" asp-action="Delete" asp-route-id="@item.Id"><spam class="fa fa-trash"></spam> </a>
                 </td>
             </tr>
         }
