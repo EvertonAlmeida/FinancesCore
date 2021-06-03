@@ -11,11 +11,11 @@ namespace FinancesCore.Data.Context
     {
         public FinanceCoreDbContext(DbContextOptions options) : base(options)
         {
-
         }
 
         public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<Transaction> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var property in modelBuilder.Model.GetEntityTypes()
