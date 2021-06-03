@@ -6,9 +6,12 @@ using FinancesCore.Business.Intefaces;
 using AutoMapper;
 using System.Collections.Generic;
 using FinancesCore.Business.Models;
+using Microsoft.AspNetCore.Authorization;
+using FinancesCore.App.Extensions;
 
 namespace FinancesCore.App.Controllers
 {
+    [Authorize]
     public class CategoriesController : BaseController
     {
         private readonly ICategoryRepository _categoryRepository;
@@ -26,11 +29,13 @@ namespace FinancesCore.App.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<CategoryViewModel>>(await _categoryRepository.GetAll()));
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(Guid id)
         {
             var categoryViewModel = await GetCategory(id);
@@ -39,11 +44,13 @@ namespace FinancesCore.App.Controllers
             return View(categoryViewModel);
         }
 
+        [ClaimsAuthorize("Category", "Add")]
         public IActionResult Create()
         {
             return View();
         }
 
+        [ClaimsAuthorize("Category", "Add")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CategoryViewModel categoryViewModel)
@@ -58,6 +65,7 @@ namespace FinancesCore.App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [ClaimsAuthorize("Category", "Edit")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var categoryViewModel = await GetCategory(id);
@@ -66,6 +74,7 @@ namespace FinancesCore.App.Controllers
             return View(categoryViewModel);
         }
 
+        [ClaimsAuthorize("Category", "Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, CategoryViewModel categoryViewModel)
@@ -82,6 +91,7 @@ namespace FinancesCore.App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [ClaimsAuthorize("Category", "Delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var categoryViewModel = await GetCategory(id);
@@ -90,6 +100,7 @@ namespace FinancesCore.App.Controllers
             return View(categoryViewModel);
         }
 
+        [ClaimsAuthorize("Category", "Delete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)

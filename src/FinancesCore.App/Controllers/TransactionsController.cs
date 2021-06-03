@@ -7,9 +7,12 @@ using AutoMapper;
 using FinancesCore.Business.Intefaces;
 using FinancesCore.Business.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using FinancesCore.App.Extensions;
 
 namespace FinancesCore.App.Controllers
 {
+    [Authorize]
     public class TransactionsController : BaseController
     {
         private readonly ITransactionRepository _transactionsRepository;
@@ -30,11 +33,13 @@ namespace FinancesCore.App.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(GetDashboard(await GetTransactionsAndCategories()));
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(Guid id)
         {
             var transactionViewModel = await GetTransaction(id);
@@ -43,12 +48,14 @@ namespace FinancesCore.App.Controllers
             return View(transactionViewModel);
         }
 
+        [ClaimsAuthorize("Transaction", "Add")]
         public async Task<IActionResult> Create()
         {
             var transactionViewModel = await LoadCategoriesIntoTransaction(new TransactionViewModel());
             return View(transactionViewModel);
         }
 
+        [ClaimsAuthorize("Transaction", "Add")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TransactionViewModel transactionViewModel)
@@ -64,6 +71,7 @@ namespace FinancesCore.App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [ClaimsAuthorize("Transaction", "Edit")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var transactionViewModel = await GetTransaction(id);
@@ -72,6 +80,7 @@ namespace FinancesCore.App.Controllers
             return View(transactionViewModel);
         }
 
+        [ClaimsAuthorize("Transaction", "Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, TransactionViewModel transactionViewModel)
@@ -88,6 +97,7 @@ namespace FinancesCore.App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [ClaimsAuthorize("Transaction", "Delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var transactionViewModel = await GetTransactionAndCategory(id);
@@ -96,6 +106,7 @@ namespace FinancesCore.App.Controllers
             return View(transactionViewModel);
         }
 
+        [ClaimsAuthorize("Transaction", "Delete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
