@@ -12,13 +12,17 @@ namespace FinancesCore.App.Controllers
     public class CategoriesController : BaseController
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
 
         public CategoriesController(
-            ICategoryRepository categoryRepository, 
-            IMapper mapper)
+            ICategoryRepository categoryRepository,
+            ICategoryService categoryService,
+            INotifier notifier,
+            IMapper mapper) : base(notifier)
         {
             _categoryRepository = categoryRepository;
+            _categoryService = categoryService;
             _mapper = mapper;
         }
 
@@ -47,7 +51,9 @@ namespace FinancesCore.App.Controllers
             if (!ModelState.IsValid) return View(categoryViewModel);
 
             var category = _mapper.Map<Category>(categoryViewModel);
-            await _categoryRepository.Add(category);
+            await _categoryService.Add(category);
+
+            if (!IsOperationvalid()) return View(categoryViewModel);
             
             return RedirectToAction(nameof(Index));
         }
@@ -69,7 +75,9 @@ namespace FinancesCore.App.Controllers
             if (!ModelState.IsValid) return View(categoryViewModel);
 
             var category = _mapper.Map<Category>(categoryViewModel);
-            await _categoryRepository.Update(category);
+            await _categoryService.Update(category);
+
+            if (!IsOperationvalid()) return View(categoryViewModel);
 
             return RedirectToAction(nameof(Index));
         }
@@ -89,14 +97,18 @@ namespace FinancesCore.App.Controllers
             var category = await GetCategory(id);
             if (category == null) return NotFound();
 
-            await _categoryRepository.Remove(id);
+            await _categoryService.Remove(id);
+
+           if (!IsOperationvalid()) return View(category);
+
+            TempData["Success"] = "Category successfully deleted";
 
             return RedirectToAction(nameof(Index));
         }
 
         private async Task<CategoryViewModel> GetCategory(Guid id)
         {
-            return _mapper.Map<CategoryViewModel>(await _categoryRepository.GetById(id));
+            return _mapper.Map<CategoryViewModel>(await _categoryRepository.GetCategory(id));
         }
     }
 }

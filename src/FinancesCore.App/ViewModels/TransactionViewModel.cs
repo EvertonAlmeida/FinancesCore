@@ -17,7 +17,7 @@ namespace FinancesCore.App.ViewModels
         public DateTime? UpdatedAt { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
-        [StringLength(200, ErrorMessage = "The field {0} need to have between {2} and {1} caracters", MinimumLength = 2)]
+        [StringLength(100, ErrorMessage = "The field {0} need to have between {2} and {1} caracters", MinimumLength = 2)]
         public string Title { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using FinancesCore.App.ViewModels;
 
 namespace FinancesCore.App.Data
 {
@@ -13,6 +9,5 @@ namespace FinancesCore.App.Data
             : base(options)
         {
         }
-        public DbSet<FinancesCore.App.ViewModels.TransactionViewModel> TransactionViewModel { get; set; }
     }
 }

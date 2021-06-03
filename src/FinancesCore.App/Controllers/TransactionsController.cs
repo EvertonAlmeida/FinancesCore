@@ -14,15 +14,19 @@ namespace FinancesCore.App.Controllers
     {
         private readonly ITransactionRepository _transactionsRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ITransactionService _transactionService;
         private readonly IMapper _mapper;
 
         public TransactionsController(
             ITransactionRepository transactionsRepository,
             ICategoryRepository categoryRepository,
-            IMapper mapper)
+            ITransactionService transactionService,
+            INotifier notifier,
+            IMapper mapper) : base(notifier)
         {
             _transactionsRepository = transactionsRepository;
             _categoryRepository = categoryRepository;
+            _transactionService = transactionService;
             _mapper = mapper;
         }
 
@@ -53,7 +57,9 @@ namespace FinancesCore.App.Controllers
             if (!ModelState.IsValid) return View(transactionViewModel);
 
             var transaction = _mapper.Map<Transaction>(transactionViewModel);
-            await _transactionsRepository.Add(transaction);
+            await _transactionService.Add(transaction);
+
+            if (!IsOperationvalid()) return View(transactionViewModel);
 
             return RedirectToAction(nameof(Index));
         }
@@ -75,7 +81,9 @@ namespace FinancesCore.App.Controllers
             if (!ModelState.IsValid) return View(transactionViewModel);
 
             var transaction = _mapper.Map<Transaction>(transactionViewModel);
-            await _transactionsRepository.Update(transaction);
+            await _transactionService.Update(transaction);
+
+            if (!IsOperationvalid()) return View(transactionViewModel);
 
             return RedirectToAction(nameof(Index));
         }
@@ -95,7 +103,9 @@ namespace FinancesCore.App.Controllers
             var transaction = await GetTransaction(id);
             if (transaction == null) return NotFound();
 
-            await _transactionsRepository.Remove(id);
+            await _transactionService.Remove(id);
+
+            if (!IsOperationvalid()) return View(transaction);
 
             return RedirectToAction(nameof(Index));
         }
