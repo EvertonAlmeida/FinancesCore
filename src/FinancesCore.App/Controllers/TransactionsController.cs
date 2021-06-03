@@ -57,7 +57,6 @@ namespace FinancesCore.App.Controllers
 
         [ClaimsAuthorize("Transaction", "Add")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TransactionViewModel transactionViewModel)
         {
             transactionViewModel = await LoadCategoriesIntoTransaction(transactionViewModel);
@@ -81,8 +80,7 @@ namespace FinancesCore.App.Controllers
         }
 
         [ClaimsAuthorize("Transaction", "Edit")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]        
         public async Task<IActionResult> Edit(Guid id, TransactionViewModel transactionViewModel)
         {
             if (id != transactionViewModel.Id) return NotFound();
@@ -108,7 +106,6 @@ namespace FinancesCore.App.Controllers
 
         [ClaimsAuthorize("Transaction", "Delete")]
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var transaction = await GetTransaction(id);

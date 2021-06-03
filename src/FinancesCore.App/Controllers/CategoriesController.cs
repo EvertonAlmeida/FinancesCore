@@ -52,7 +52,6 @@ namespace FinancesCore.App.Controllers
 
         [ClaimsAuthorize("Category", "Add")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CategoryViewModel categoryViewModel)
         {
             if (!ModelState.IsValid) return View(categoryViewModel);
@@ -76,7 +75,6 @@ namespace FinancesCore.App.Controllers
 
         [ClaimsAuthorize("Category", "Edit")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, CategoryViewModel categoryViewModel)
         {
             if (id != categoryViewModel.Id) return NotFound();
@@ -102,7 +100,6 @@ namespace FinancesCore.App.Controllers
 
         [ClaimsAuthorize("Category", "Delete")]
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var category = await GetCategory(id);
