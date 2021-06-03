@@ -12,7 +12,7 @@ namespace FinancesCore.Data.Mappings
 
             builder.Property(p => p.Title)
                    .IsRequired()
-                   .HasColumnType("varchar(200)");
+                   .HasColumnType("varchar(100)");
 
             builder.HasMany(c => c.Transactions)
             .WithOne(t => t.Category)
