@@ -51,7 +51,8 @@ namespace FinancesCore.App
             }
             else
             {
-                app.UseExceptionHandler("/Dashboard/Error");
+                app.UseExceptionHandler("/erro/500");
+                app.UseStatusCodePagesWithRedirects("/erro/{0}");
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
