@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Razor;
+﻿using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace FinancesCore.App.Extensions
 {

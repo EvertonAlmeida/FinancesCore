@@ -28,9 +28,9 @@ namespace FinancesCore.App.Extensions
             if (output == null)
                 throw new ArgumentNullException(nameof(output));
 
-            var temAcesso = CustomAuthorization.ValidateUserClaims(_contextAccessor.HttpContext, IdentityClaimName, IdentityClaimValue);
+            var hasAccess = CustomAuthorization.ValidateUserClaims(_contextAccessor.HttpContext, IdentityClaimName, IdentityClaimValue);
 
-            if (temAcesso) return;
+            if (hasAccess) return;
 
             output.Attributes.RemoveAll("href");
             output.Attributes.Add(new TagHelperAttribute("style", "cursor: not-allowed"));

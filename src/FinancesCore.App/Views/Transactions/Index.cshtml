@@ -17,8 +17,8 @@
     <div class="col-sm-3">
         <div class="card">
             <div class="card-header" style="display: flex; align-items: center; justify-content: space-between;">
-                Incoming
-                <i class="fas fa-arrow-up"></i>
+                Incomings
+                <i style="color:forestgreen" class="fas fa-arrow-down"></i>
             </div>
             <div class="card-body text-dark">
                 <p class="card-text">@Model.Balance.Income.ToString("C")</p>
@@ -28,8 +28,8 @@
     <div class="col-sm-3">
         <div class="card">
             <div class="card-header" style="display: flex; align-items: center; justify-content: space-between;">
-                Outcoming
-                <i class="fas fa-dollar-sign"></i>
+                Outcomings
+                <i style="color:red" class="fas fa-arrow-up"></i>
             </div>
             <div class="card-body">
                 <p class="card-text">@Model.Balance.Outcome.ToString("C")</p>
@@ -40,7 +40,7 @@
         <div class="card">
             <div class="card-header" style="display: flex; align-items: center; justify-content: space-between;">
                 Total
-                <i class="fas fa-dollar-sign"></i>
+                <i style="color:goldenrod" class="fas fa-dollar-sign"></i>
             </div>
             <div class="card-body">
                 <p class="card-text">@Model.Balance.Total.ToString("C")</p>
@@ -81,6 +81,7 @@
                     @item.Value.ToString("C")
                 </td>
                 <td>
+                    <i display-by-transaction-type="item.Type"></i>
                     @this.GetTypeDescription(item.Type)
                 </td>
                 <td>
@@ -92,7 +93,7 @@
                 <td class="text-right">
                     <a class="btn btn-warning" asp-controller="Transactions" asp-action="Details" asp-route-id="@item.Id"><spam class="fa fa-search"></spam> </a>
                     <a disable-by-claim-name="Transaction" disable-by-claim-value="Edit" class="btn btn-info" asp-controller="Transactions" asp-action="Edit" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></spam> </a>
-                    <a disable-by-claim-name="Transaction" disable-by-claim-value="delete" class="btn btn-danger" asp-controller="Transactions" asp-action="Delete" asp-route-id="@item.Id"><spam class="fa fa-trash"></spam> </a>
+                    <a disable-by-claim-name="Transaction" disable-by-claim-value="Delete" class="btn btn-danger" asp-controller="Transactions" asp-action="Delete" asp-route-id="@item.Id"><spam class="fa fa-trash"></spam> </a>
                 </td>
             </tr>
         }
