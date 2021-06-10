@@ -1,7 +1,7 @@
 ﻿# Finances Core APP
 
 <h1>
-<img src="https://github.com/EvertonAlmeida/FinancesCore/tree/main/docs/FinancesCore">
+<img src="https://github.com/EvertonAlmeida/FinancesCore/blob/main/docs/FinancesCore.gif">
 <h1>
 
 ## Descripition
