@@ -1,4 +1,14 @@
-﻿IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+﻿USE master
+GO
+IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'FinancesCore')
+BEGIN
+  CREATE DATABASE [FinancesCore];
+END;
+GO
+
+USE FinancesCore
+
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
 BEGIN
     CREATE TABLE [__EFMigrationsHistory] (
         [MigrationId] nvarchar(150) NOT NULL,
@@ -6,6 +16,8 @@ BEGIN
         CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
     );
 END;
+
+
 
 GO
 
